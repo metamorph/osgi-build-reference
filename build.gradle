@@ -1,0 +1,13 @@
+
+subprojects {
+    apply plugin: "java"
+
+    version = "1.0-GRADLE"
+
+    repositories { mavenCentral() }
+
+    dependencies {
+        compile "org.osgi:org.osgi.core:4.3.+", "org.slf4j:slf4j-api:1.7.+"
+        testCompile "junit:junit:4.+", "org.slf4j:slf4j-simple:1.7.+"
+    }
+}
