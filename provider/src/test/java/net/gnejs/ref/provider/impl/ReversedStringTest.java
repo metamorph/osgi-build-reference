@@ -1,5 +1,6 @@
-package net.gnejs.ref.provider;
+package net.gnejs.ref.provider.impl;
 
+import net.gnejs.ref.provider.impl.ReversedString;
 import org.junit.Assert;
 import org.junit.Test;
 

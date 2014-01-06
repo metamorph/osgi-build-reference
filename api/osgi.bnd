@@ -1,0 +1,3 @@
+Bundle-Version: ${project.version}
+Bundle-SymbolicName: net.gnejs.ref.api
+Export-Package: net.gnejs.ref.api

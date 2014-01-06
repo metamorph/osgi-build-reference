@@ -1,0 +1,5 @@
+Bundle-SymbolicName: net.gnejs.ref.provider
+# No export
+Export-Package: !*
+# DS
+Service-Component: *

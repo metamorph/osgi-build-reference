@@ -1,0 +1,3 @@
+Bundle-SymbolicName: net.gnejs.ref.consumer
+Export-Package: !*
+Service-Component: *

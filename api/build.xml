@@ -1,0 +1,41 @@
+<project name="api" basedir="." default="compile">
+
+    <property name="project.version" value="1.0-ANT" />
+    <property name="build.dir" value="${basedir}/bin" />
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="build.testClasses.dir" value="${build.dir}/testClasses"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="src.java.dir" value="${src.dir}/main/java"/>
+    <property name="src.resources.dir" value="${src.dir}/main/resources"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="src.javaTest.dir" value="${src.dir}/test/java"/>
+    <property name="src.resourcesTest.dir" value="${src.dir}/test/resources"/>
+
+    <property name="build.jar.file" value="${build.dir}/api-${project.version}.jar"/>
+
+    <target name="_init">
+        <condition property="src.javaTest.dir.exist">
+            <available file="${src.javaTest.dir}" type="dir" />
+        </condition>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+    <target name="compile" depends="_init">
+        <mkdir dir="${build.classes.dir}" />
+        <javac srcdir="${src.java.dir}" destdir="${build.classes.dir}" includeantruntime="false" />
+    </target>
+    <target name="test.compile" depends="compile" if="src.javaTest.dir.exist">
+        <mkdir dir="${build.testClasses.dir}" />
+        <javac srcdir="${src.javaTest.dir}" destdir="${build.testClasses.dir}" includeantruntime="false" classpath="${build.classes.dir}" />
+    </target>
+    <target name="package" depends="test.compile">
+        <taskdef classpath="${basedir}/../include/bnd/biz.aQute.bnd-2.3.0.jar" resource="aQute/bnd/ant/taskdef.properties"/>
+        <bnd classpath="${build.classes.dir}" files="${basedir}/osgi.bnd" destfile="${build.jar.file}" />
+    </target>
+
+
+</project>

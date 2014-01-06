@@ -2,3 +2,5 @@
 **/target/
 **/build/
 **/.gradle/
+**/bin/
+**/.ant_targets
