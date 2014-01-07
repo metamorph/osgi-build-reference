@@ -1,4 +1,6 @@
-<project name="api" basedir="." default="compile">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="_template" basedir="." default="compile">
+
+    <dirname property="this.basedir" file="${ant.file._template}" />
     <property name="project.version" value="1.0-ANT" />
     <property name="build.dir" value="${basedir}/bin" />
     <property name="build.classes.dir" value="${build.dir}/classes"/>
@@ -12,7 +14,7 @@
     <property name="src.javaTest.dir" value="${src.dir}/test/java"/>
     <property name="src.resourcesTest.dir" value="${src.dir}/test/resources"/>
 
-    <property name="build.jar.file" value="${build.dir}/api-${project.version}.jar"/>
+    <property name="build.jar.file" value="${build.dir}/${ant.project.name}-${project.version}.jar"/>
 
     <target name="_init">
         <condition property="src.javaTest.dir.exist">
@@ -31,8 +33,13 @@
         <mkdir dir="${build.testClasses.dir}" />
         <javac srcdir="${src.javaTest.dir}" destdir="${build.testClasses.dir}" includeantruntime="false" classpath="${build.classes.dir}" />
     </target>
+    <target name="_ivy_resolve">
+        <taskdef classpath="${this.basedir}/ivy/ivy-2.3.0.jar"
+                 resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" />
+        <ivy:resolve />
+    </target>
     <target name="package" depends="test.compile">
-        <taskdef classpath="${basedir}/../bnd/biz.aQute.bnd-2.3.0.jar" resource="aQute/bnd/ant/taskdef.properties"/>
+        <taskdef classpath="${this.basedir}/bnd/biz.aQute.bnd-2.3.0.jar" resource="aQute/bnd/ant/taskdef.properties"/>
         <bnd classpath="${build.classes.dir}" files="${basedir}/osgi.bnd" destfile="${build.jar.file}" />
     </target>
 </project>
