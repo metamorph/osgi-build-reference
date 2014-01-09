@@ -6,8 +6,24 @@ subprojects {
 
     repositories { mavenCentral() }
 
+    configurations {
+        bnd
+    }
+
     dependencies {
-        compile "org.osgi:org.osgi.core:4.3.+", "org.slf4j:slf4j-api:1.7.+"
+        compile "org.osgi:org.osgi.core:4.3.+", "org.slf4j:slf4j-api:1.7.+", "biz.aQute:bndlib:1.+"
         testCompile "junit:junit:4.+", "org.slf4j:slf4j-simple:1.7.+"
+        bnd "biz.aQute.bnd:bnd:2.+"
+    }
+
+    task bundle() << {
+        // declare the ant-task
+        ant.properties['project.version'] = version
+        ant.taskdef(classpath: configurations.bnd.asPath,
+                    resource: 'aQute/bnd/ant/taskdef.properties')
+        println("Using Classpath: " + configurations.compile.asPath)
+        ant.bnd(classpath: "build/classes/main:"+configurations.compile.asPath, 
+                files: 'osgi.bnd', 
+                destfile: 'build/libs/bundle.jar')
     }
 }
